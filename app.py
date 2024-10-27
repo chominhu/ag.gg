@@ -3,7 +3,7 @@ import requests
 import json
 app = Flask(__name__)    #KR_7194336697
 app.secret_key = 'chominhu'
-API_KEY = "RGAPI-81ea5dea-bf61-4e96-927b-b7e5c1e799b4"
+API_KEY = "RGAPI-f640aa49-313c-4b70-8be1-5dca996e1710"
 TOKEN_URL = 'https://kauth.kakao.com/oauth/token'
 CSECRET ="evDXimCr4cx2rS4oV86uu0kuOpIBURhs"
 CID = "d84e9575e674f29bde2713c430351e80"
@@ -127,7 +127,7 @@ def getAuthCode():
 
 
 def getMatchHistroy(gameName, tagLine):
-    apiKey = "RGAPI-81ea5dea-bf61-4e96-927b-b7e5c1e799b4"
+    apiKey = "RGAPI-f640aa49-313c-4b70-8be1-5dca996e1710"
     response = requests.get("https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/"+ gameName+"/"+tagLine+"?api_key="+apiKey)
     #게임네임이랑 태그라인 넣어서 apikey 사용해서 puuid를받아오는 API호출해서 응답받은 결과를 response변수에 저장.
     puuid = response.json()['puuid']
@@ -197,7 +197,7 @@ def search():
         match_history_lst = []
         for a in range(10):
             print(matchhistory)
-            apiKey = "RGAPI-81ea5dea-bf61-4e96-927b-b7e5c1e799b4"
+            apiKey = "RGAPI-f640aa49-313c-4b70-8be1-5dca996e1710"
             #10명의 유저 게임 기록 뽑기.
             gamename = (matchhistory['info']['participants'][a]['riotIdGameName'])
             teamId = (matchhistory['info']['participants'][a]['teamId'])
@@ -292,7 +292,7 @@ def printMatchList(matchListResponse):
         matchDetailResponse = requests.get("https://asia.api.riotgames.com/lol/match/v5/matches/"+matchListResponse[i]+"?api_key="+API_KEY)
         print(matchDetailResponse.text)
         matchhistory = matchDetailResponse.text
-        apiKey = "RGAPI-81ea5dea-bf61-4e96-927b-b7e5c1e799b4"
+        apiKey = "RGAPI-f640aa49-313c-4b70-8be1-5dca996e1710"
         gamename = (matchhistory['info']['participants'][i]['riotIdGameName'])
         teamId = (matchhistory['info']['participants'][i]['teamId'])
         championname = ('챔피언 : ' + matchhistory['info']['participants'][i]['championName'])
