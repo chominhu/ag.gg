@@ -4,6 +4,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>siuuuuuuuuuu</title>
   <style>
+    .navbar {
+      background-color: #5383EB;
+      padding: 10px 0;
+    }
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+    .hero {
+      background-image: url("{{ url_for('static', filename='lol.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      height: 300px; /* 400px에서 300px로 줄임 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -20px; /* 네비게이션 바와의 간격을 줄임 */
+    }
+    .search-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      width: 600px;
+    }
+    .search-form {
+      display: flex;
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -146,22 +186,45 @@
         }
     }
 
-    .win {
-      color: blue;
-      font-weight: bold;
-    }
-
-    .lose {
-      color: red;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
+  <a href="/" class="logo">AG.GG</a>
+  <div class="hero">
+    <div class="search-container">
+        <form class="search-form" action="/search" method="post">
+            <select name="region" id="region">
+                <option value="na">North America</option>
+                <option value="me">Middle East</option>
+                <option value="eu_w">Europe West</option>
+                <option value="eu_ne">Europe Nordic & East</option>
+                <option value="oc">Oceania</option>
+                <option value="kr">Korea</option>
+                <option value="jp">Japan</option>
+                <option value="br">Brazil</option>
+                <option value="las">LAS</option>
+                <option value="lan">LAN</option>
+                <option value="ru">Russia</option>
+                <option value="tr">Turkey</option>
+                <option value="sg">Singapore</option>
+                <option value="ph">Philippines</option>
+                <option value="tw">Taiwan</option>
+                <option value="vn">Vietnam</option>
+                <option value="th">Thailand</option>
+                <!-- 다른 지역 옵션들... -->
+            </select>
+            <input type="text" name="summoner_name" placeholder="소환사명을 입력하세요" required>
+            <button type="submit">.GG</button>
+        </form>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="">홈</a>
+    <a href="championanalyze">챔피언 분석</a>
+    <a href="rangking">랭킹</a>
+    <a href="total">통계</a>
+  </div>
   <h1></h1>
-  {% if championname == 'Aurora' %}
-    <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/champion/Aurora.png?image=e_upscale,c_crop,h_103,w_103,x_9,y_9/q_auto:good,f_webp,w_160,h_160&v=1729058249" alt="Aurora" style="width: 80px; height: 80px; border-radius: 50%;">
-  {% endif %}
   {{championname}}
   {{summoner_name}}
   {{PersonalTier}}
@@ -186,6 +249,7 @@
         <th>승/패</th>
         <th>아이템</th>
         <th>티어</th>
+        <th>레벨</th>  <!-- Add a header for level -->
       </tr>
     </thead>
     <tbody>
@@ -194,31 +258,63 @@
       {% for k in j %}
         {% if loop.index == 3 %}
           <td>
-            <img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/champion/{{ k }}.png" alt="{{ k }}" style="width: 30px; height: 30px; border-radius: 50%;">
-            {{k}}
-          </td>
-        {% elif loop.index == 10 %}
-          <td class="{% if k == true %}win{% else %}lose{% endif %}">
-            {% if k == true %}승리{% else %}패배{% endif %}
+            {% if championname == 'Aurora' %}
+              <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/champion/Aurora.png?image=e_upscale,c_crop,h_103,w_103,x_9,y_9/q_auto:good,f_webp,w_160,h_160&v=1729058249" alt="{{ championname }}">
+            {% else %}
+              <img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/champion/{{ k }}.png" alt="{{ k }}" style="width: 30px; height: 30px; border-radius: 50%;">
+            {% endif %}
+            {{k}}<br>  <!-- Display the name -->
+
           </td>
         {% elif loop.index == 11 %}
           <td>
             {% for item_id in k %}
               {% if item_id == 4646 %}
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/4646.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item 4646" style="width: 25px; height: 25px; margin-right: 1px;">
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/4646.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
               {% elif item_id == 3147 %}
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3147.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item 4646" style="width: 25px; height: 25px; margin-right: 1px;">
-              {% elif item_id == 3877 %}
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3877.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item 4646" style="width: 25px; height: 25px; margin-right: 1px;">
-              {% elif item_id == 3871 %}
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3871.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item 4646" style="width: 25px; height: 25px; margin-right: 1px;">
-              {% elif item_id == 2022 %}
-                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2022.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item 4646" style="width: 25px; height: 25px; margin-right: 1px;">
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3147.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3877 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3877.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3871 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3871.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 2022 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2022.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 6701 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/6701.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 2503 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2503.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 2508 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2508.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3010 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3010.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3877 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3877.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 6610 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/6610.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 2021 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2021.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3870 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3870.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3869 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3869.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3118 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3118.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3013 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3013.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 2020 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/2020.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3876 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3876.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
+                {% elif item_id == 3147 %}
+                <img src="https://opgg-static.akamaized.net/meta/images/lol/latest/item/3147.png?image=e_upscale,q_auto:good,f_webp,w_64,h_64&v=1729058249" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
               {% else %}
                 <img src="http://ddragon.leagueoflegends.com/cdn/13.10.1/img/item/{{ item_id }}.png" alt="Item {{ item_id }}" style="width: 25px; height: 25px; margin-right: 1px;">
               {% endif %}
+              {{items}}
             {% endfor %}
           </td>
+        {% elif loop.index == 10 %}
+          <td style="color:  'blue' if k else 'red' };">{{ '승리' if k else '패배' }}</td>
         {% else %}
           <td>{{k}}</td>
         {% endif %}
