@@ -314,7 +314,7 @@
             {% endfor %}
           </td>
         {% elif loop.index == 10 %}
-          <td style="color:  'blue' if k else 'red' };">{{ '승리' if k else '패배' }}</td>
+          <td style="color: {{ 'blue' if k else 'red' }};">{{ '승리' if k else '패배' }}</td>
         {% else %}
           <td>{{k}}</td>
         {% endif %}

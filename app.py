@@ -3,11 +3,11 @@ import requests
 import json
 app = Flask(__name__)    #KR_7194336697
 app.secret_key = 'chominhu'
-API_KEY = "RGAPI-49aa6105-5899-4b08-b8f5-e0842ab93c16"
+API_KEY = "RGAPI-d99fdc77-13a4-4894-8381-fb51379ccf5d"
 TOKEN_URL = 'https://kauth.kakao.com/oauth/token'
 CSECRET ="BGDkauFdjU9lEtb1n6G7tesgpoNNONwb"
 CID = "57f9d0c11d0039471ba6a9d38162c466"
-RURI= "http://127.0.0.1:5000/callback"   #REDIRECT_URI  #https://127.0.0.1:5000/callback
+RURI= "https://minhu.site/callback"   #REDIRECT_URI  #https://127.0.0.1:5000/callback
 KAKAO_LOGIN_URL = "https://kauth.kakao.com/oauth/authorize?client_id="+CID+"&redirect_uri="+RURI+"&scope=profile_nickname,profile_image,talk_message&response_type=code"
 
 @app.route('/')
@@ -338,6 +338,10 @@ def printMatchList(matchListResponse):
     #print(Rank)
     #print(kdaa)
 
+@app.route('/riot.txt')
+def riot_txt():
+    return render_template('riot_txt.html')
+
 @app.route('/championanalyze')
 def champion_analyze():
     # Fetch all champions from the Riot Games API
@@ -375,5 +379,3 @@ def rangking():
 if __name__ == '__main__':
     app.debug = True
     app.run(host="0.0.0.0", port="5000")#, port="443", ssl_context='adhoc')
-
-#https://blog.naver.com/mds_datasecurity/222182943542 Oauth2.0 공부해오기
